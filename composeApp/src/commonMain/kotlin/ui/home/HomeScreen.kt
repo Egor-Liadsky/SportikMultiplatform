@@ -22,7 +22,7 @@ fun HomeScreen(component: HomeComponent) {
         
         val list = List(100) { it }
         
-        Text("Profile Screen")
+        Text("Profile Screen 2")
         
         LazyColumn {
             items(items = list) {
