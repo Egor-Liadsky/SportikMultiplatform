@@ -40,9 +40,8 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.bundles.ktor.common)
 
-            implementation("io.ktor:ktor-client-core:3.0.0-wasm1")
-            implementation("io.ktor:ktor-serialization-kotlinx-json:3.0.0-wasm1")
-            implementation("io.ktor:ktor-client-content-negotiation:3.0.0-wasm1")
+            implementation(libs.kotlinx.coroutines)
+            implementation(libs.coil)
 
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -67,7 +66,7 @@ buildkonfig {
     packageName = "com.lyadsky.sportik"
 
     defaultConfigs {
-        buildConfigField(Type.STRING, "BASE_URL", "https://api.fairless.ru")
+        buildConfigField(Type.STRING, "BASE_URL", "http://localhost:8086/api/")
     }
 }
 

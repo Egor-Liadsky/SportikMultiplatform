@@ -12,9 +12,11 @@ import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.lifecycle.LifecycleController
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import components.root.RootComponentImpl
-import ui.TestScreen
+import di.initKoin
 import ui.root.RootScreen
 import utils.runOnUiThread
+
+internal val koin = initKoin().koin
 
 @OptIn(ExperimentalDecomposeApi::class)
 fun main() {
@@ -41,7 +43,6 @@ fun main() {
             MaterialTheme {
                 Surface {
                     RootScreen(component = root, modifier = Modifier.fillMaxSize())
-//                    TestScreen()
                 }
             }
         }

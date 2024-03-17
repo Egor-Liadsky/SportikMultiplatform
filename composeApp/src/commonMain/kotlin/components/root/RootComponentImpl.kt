@@ -4,8 +4,11 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
+import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
 import components.home.HomeComponentImpl
+import components.product.ProductComponentImpl
 import kotlinx.serialization.Serializable
 
 class RootComponentImpl(
@@ -22,14 +25,37 @@ class RootComponentImpl(
             childFactory = ::childFactory
         )
 
-    private fun childFactory(config: Config, componentContext: ComponentContext): RootComponent.Child =
-        when(config) {
+    override fun onBackButtonClick() {
+        navigation.pop()
+    }
+
+    private fun childFactory(
+        config: Config,
+        componentContext: ComponentContext
+    ): RootComponent.Child =
+        when (config) {
             Config.Home -> homeComponent(componentContext)
+            is Config.Product -> productComponent(componentContext, config.productId)
         }
 
     private fun homeComponent(componentContext: ComponentContext): RootComponent.Child =
         RootComponent.Child.HomeChild(
-            HomeComponentImpl(componentContext = componentContext)
+            HomeComponentImpl(
+                componentContext = componentContext,
+                navigateToProductComponent = { productId -> navigation.push(Config.Product(productId)) }
+            )
+        )
+
+    private fun productComponent(
+        componentContext: ComponentContext,
+        productId: Int
+    ): RootComponent.Child =
+        RootComponent.Child.ProductChild(
+            ProductComponentImpl(
+                componentContext = componentContext,
+                productId = productId,
+                onBackButtonClick = ::onBackButtonClick
+            )
         )
 
     @Serializable
@@ -37,5 +63,8 @@ class RootComponentImpl(
 
         @Serializable
         data object Home : Config
+
+        @Serializable
+        data class Product(val productId: Int) : Config
     }
 }

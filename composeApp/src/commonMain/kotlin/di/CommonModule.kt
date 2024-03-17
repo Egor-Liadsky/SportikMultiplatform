@@ -1,5 +1,9 @@
 package di
 
+import data.repository.category.CategoryRepository
+import data.repository.category.CategoryRepositoryImpl
+import data.repository.product.ProductRepository
+import data.repository.product.ProductRepositoryImpl
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
@@ -12,7 +16,7 @@ import org.koin.dsl.module
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) =
     startKoin {
         appDeclaration()
-        modules(commonModule)
+        modules(commonModule, platformModule())
     }
 
 val commonModule = module {
@@ -34,4 +38,8 @@ val commonModule = module {
             }
         }
     }
+
+    // Repositories
+    single<ProductRepository> { ProductRepositoryImpl() }
+    single<CategoryRepository> { CategoryRepositoryImpl() }
 }
