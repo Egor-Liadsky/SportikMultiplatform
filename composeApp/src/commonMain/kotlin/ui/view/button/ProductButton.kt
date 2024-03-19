@@ -12,6 +12,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ui.theme.Color
+import ui.theme.Fonts
 
 @Composable
 fun ProductButton(modifier: Modifier = Modifier, title: String, onClick: () -> Unit) {
@@ -29,6 +30,7 @@ fun ProductButton(modifier: Modifier = Modifier, title: String, onClick: () -> U
             title,
             style = TextStyle(
                 fontSize = 12.sp,
+                fontFamily = Fonts.Montserrat.bold(),
                 color = Color.white
             ),
         )

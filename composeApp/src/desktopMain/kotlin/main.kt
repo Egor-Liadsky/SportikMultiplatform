@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.arkivanov.decompose.DefaultComponentContext
@@ -30,7 +31,8 @@ fun main() {
     application {
 
         val windowState = rememberWindowState(
-            size = DpSize(1080.dp, 750.dp)
+//            size = DpSize(1080.dp, 750.dp)
+            placement = WindowPlacement.Fullscreen
         )
 
         LifecycleController(lifecycle, windowState)

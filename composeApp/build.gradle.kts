@@ -40,11 +40,12 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.bundles.ktor.common)
 
-            implementation(libs.kotlinx.coroutines)
+            implementation(libs.kotlinx.coroutines.core)
             implementation(libs.coil)
+            implementation(libs.coil.compose.core)
+            implementation(libs.coil.network.ktor)
 
             implementation(compose.runtime)
-            implementation(compose.foundation)
             implementation(compose.material)
             implementation(compose.ui)
             implementation(compose.components.resources)
@@ -53,6 +54,7 @@ kotlin {
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.ktor.client.java)
+            implementation(libs.kotlinx.coroutines.swing)
         }
         val wasmJsMain by getting {
             dependencies {
