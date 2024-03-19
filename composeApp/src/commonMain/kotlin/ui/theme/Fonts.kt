@@ -11,6 +11,7 @@ import sportikmultiplatform.composeapp.generated.resources.montserrat
 import sportikmultiplatform.composeapp.generated.resources.montserrat_alternates
 import sportikmultiplatform.composeapp.generated.resources.montserrat_bold
 import sportikmultiplatform.composeapp.generated.resources.montserrat_medium
+import sportikmultiplatform.composeapp.generated.resources.montserrat_regular
 
 object Fonts {
 
@@ -26,6 +27,10 @@ object Fonts {
         @Composable
         @OptIn(ExperimentalResourceApi::class)
         fun medium(): FontFamily = Font(Res.font.montserrat_medium, FontWeight.Medium).toFontFamily()
+
+        @Composable
+        @OptIn(ExperimentalResourceApi::class)
+        fun regular(): FontFamily = Font(Res.font.montserrat_regular, FontWeight.Normal).toFontFamily()
     }
 
     object MontserratAlternates {

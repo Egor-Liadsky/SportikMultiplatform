@@ -9,6 +9,8 @@ interface RootComponent {
 
     val childStack: Value<ChildStack<*, Child>>
 
+    val viewStates: Value<RootState>
+
     fun onBackButtonClick()
 
     sealed class Child {

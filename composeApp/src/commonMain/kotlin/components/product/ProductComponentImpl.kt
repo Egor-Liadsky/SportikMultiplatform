@@ -4,6 +4,10 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import components.BaseComponent
+import data.model.Dimension
+import data.model.Image
+import data.model.SubDimension
+import data.repository.category.CategoryRepository
 import data.repository.product.ProductRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,11 +25,25 @@ class ProductComponentImpl(
     private val productRepository: ProductRepository by inject()
 
     init {
-        getProduct(productId)
+        scope.launch {
+            getProduct(productId)
+        }
     }
 
     override fun onBackButtonClicked() {
         onBackButtonClick()
+    }
+
+    override fun selectDimension(dimension: Dimension) {
+        viewState = viewState.copy(selectedDimension = dimension)
+    }
+
+    override fun selectSubDimension(subDimension: SubDimension) {
+        viewState = viewState.copy(selectSubDimension = subDimension)
+    }
+
+    override fun selectImage(image: Image) {
+        viewState = viewState.copy(selectedImage = image)
     }
 
     private fun getProduct(productId: Int) {
@@ -33,9 +51,13 @@ class ProductComponentImpl(
             exceptionHandleable(
                 executionBlock = {
                     val product = productRepository.getProduct(productId)
+                    val firstImage = product.images[0]
+                    val firstDimension = product.dimensions[0]
                     viewState = viewState.copy(
                         product = product,
-                        productLoadingState = LoadingState.Success
+                        productLoadingState = LoadingState.Success,
+                        selectedImage = firstImage,
+                        selectedDimension = firstDimension
                     )
                 },
                 failureBlock = {

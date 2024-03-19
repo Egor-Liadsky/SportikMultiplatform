@@ -7,15 +7,29 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
+import components.BaseComponent
 import components.home.HomeComponentImpl
 import components.product.ProductComponentImpl
+import data.repository.category.CategoryRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import utils.LoadingState
+import utils.exceptionHandleable
 
 class RootComponentImpl(
     componentContext: ComponentContext
-) : RootComponent, ComponentContext by componentContext {
+) : BaseComponent<RootState>(componentContext, RootState()), RootComponent, KoinComponent {
+
+    private val categoryRepository: CategoryRepository by inject()
 
     private val navigation = StackNavigation<Config>()
+
+    init {
+        getCategories()
+    }
 
     override val childStack: Value<ChildStack<*, RootComponent.Child>> =
         childStack(
@@ -57,6 +71,24 @@ class RootComponentImpl(
                 onBackButtonClick = ::onBackButtonClick
             )
         )
+
+    private fun getCategories() {
+        scope.launch(Dispatchers.Default) {
+            exceptionHandleable(
+                executionBlock = {
+                    val categories = categoryRepository.getCategories()
+                    viewState = viewState.copy(
+                        categories = categories,
+                        categoriesLoadingState = LoadingState.Success
+                    )
+                },
+                failureBlock = {
+                    viewState =
+                        viewState.copy(categoriesLoadingState = LoadingState.Error(it.message.toString()))
+                }
+            )
+        }
+    }
 
     @Serializable
     private sealed interface Config {

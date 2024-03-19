@@ -17,10 +17,8 @@ class HomeComponentImpl(
 ) : BaseComponent<HomeState>(componentContext, HomeState()), HomeComponent, KoinComponent {
 
     private val productRepository: ProductRepository by inject()
-    private val categoryRepository: CategoryRepository by inject()
 
     init {
-        getCategories()
         getProducts()
     }
 
@@ -41,24 +39,6 @@ class HomeComponentImpl(
                 failureBlock = {
                     viewState =
                         viewState.copy(productsLoadingState = LoadingState.Error(it.message.toString()))
-                }
-            )
-        }
-    }
-
-    private fun getCategories() {
-        scope.launch(Dispatchers.Default) {
-            exceptionHandleable(
-                executionBlock = {
-                    val categories = categoryRepository.getCategories()
-                    viewState = viewState.copy(
-                        categories = categories,
-                        categoriesLoadingState = LoadingState.Success
-                    )
-                },
-                failureBlock = {
-                    viewState =
-                        viewState.copy(categoriesLoadingState = LoadingState.Error(it.message.toString()))
                 }
             )
         }

@@ -24,13 +24,12 @@ fun ProductButton(modifier: Modifier = Modifier, title: String, onClick: () -> U
         colors = ButtonDefaults.buttonColors(
             backgroundColor = Color.blue
         ),
-        shape = RoundedCornerShape(0.dp)
     ) {
         Text(
             title,
             style = TextStyle(
                 fontSize = 12.sp,
-                fontFamily = Fonts.Montserrat.bold(),
+                fontFamily = Fonts.Montserrat.semiBold(),
                 color = Color.white
             ),
         )
